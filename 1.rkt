@@ -13,7 +13,7 @@
              [(< (car result) 0) i]
              [else (cdr result)])]
         [_ (cdr result)])))
-  initial-floor (in-indexed input)))
+   initial-floor (in-indexed input)))
 
 (call-with-input-file "25_input"
   (lambda (in)
