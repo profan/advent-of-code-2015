@@ -15,6 +15,6 @@
         [_ (cdr result)])))
    initial-floor (in-indexed input)))
 
-(call-with-input-file "25_input"
+(call-with-input-file "1.input"
   (lambda (in)
     (what-floor '(0 . 0) (in-input-port-chars in))))
