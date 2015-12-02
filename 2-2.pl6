@@ -12,9 +12,7 @@ sub smallest-surface-perimeter(@array [$l, $w, $h]) {
 }
 
 sub package-ribbon-length(@array [$l, $w, $h]) {
-
 	($l * $w * $h) + smallest-surface-perimeter @array
-
 }
 
 sub match-line ($cur, $line) {
