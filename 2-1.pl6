@@ -1,6 +1,5 @@
 #!/usr/bin/env perl6
 
-
 sub smallest-side-area (@array [$l, $w, $h]) {
 
 	my $area = sub (@ [$w, $h]) { $w * $h };
