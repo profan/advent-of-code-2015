@@ -5,6 +5,6 @@ Another friend of mine is also doing a similar thing, so czech it out: https://g
 Ideally, the languages would be as distinct from each-other as possible, to which extent this will be possible is yet to be seen. (my Prolog is a bit rusty...)
 
 ## Languages
-**1st. [Racket](http://www.racket-lang.org/)** - [[Part 1](1-1.rkt), [Part 2](1-2.rkt)] - [Challenge](http://adventofcode.com/day/1)
+**1st. [Racket](http://www.racket-lang.org/)** - [[Part 1](1-1.rkt), [Part 2](1-2.rkt)] - [Day 1: Not Quite Lisp](http://adventofcode.com/day/1)
 
 **2nd. ...**
