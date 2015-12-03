@@ -1,6 +1,6 @@
 #!/usr/bin/env perl6
 
-sub smallest-surface-perimeter(@array [$l, $w, $h]) {
+sub smallest-surface-perimeter (@array [$l, $w, $h]) {
 
 	my $perimeter = sub (@ [$w, $h]) { $w*2 + $h*2 };
 	my &smallest-perimeter = sub ($cur, $last) { $perimeter($cur) < $perimeter($last) ?? $cur !! $last };
@@ -11,7 +11,7 @@ sub smallest-surface-perimeter(@array [$l, $w, $h]) {
 
 }
 
-sub package-ribbon-length(@array [$l, $w, $h]) {
+sub package-ribbon-length (@array [$l, $w, $h]) {
 	($l * $w * $h) + smallest-surface-perimeter @array
 }
 
