@@ -9,4 +9,6 @@ Ideally, the languages would be as distinct from each-other as possible, to whic
 
 **2nd. [Perl 6](https://perl6.org/)** - [[Part 1](2-1.pl6), [Part 2](2-2.pl6)] - [I Was Told There Would Be No Math](http://adventofcode.com/day/2)
 
-**3rd. [APL](https://www.gnu.org/software/apl/)** - [[Part 1](3-1.apl), [Part 2](3-2.apl)] - [Perfectly Spherical Houses in a Vacuum](http://adventofcode.com/day/3)
+**3rd. [APL](https://www.gnu.org/software/apl/)** - [[Part 1](3-1.apl), [Part 2](3-2.apl)] - [Perfectly Spherical Houses in a Vacuum](http://adventofcode.com/day/3) <- part 2 incomplete
+
+**4th. [Erlang](www.erlang.org)** - [[Part 1](4-1.erl), [Part 2](4-2.erl)] - [The Ideal Stocking Stuffer](http://adventofcode.com/day/4)
