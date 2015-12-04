@@ -4,7 +4,7 @@
 
 cmds ← ('<' '>' '^' 'v')
 dirs ← ((¯1 0) (1 0) (0 ¯1) (0 1))
-houses ← ∪ (0 0) , { ++\⍵ } { dirs[ti] ⊣ ti ← cmds ⍳ ⍵ } ⍞
+houses ← ∪ (0 0) , { ++\⍵ } { dirs[cmds ⍳ ⍵] } ⍞
 ⍴ houses ⍝ the amount of houses to visit
 
 )OFF
