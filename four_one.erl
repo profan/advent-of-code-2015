@@ -1,4 +1,4 @@
--module(one).
+-module(four_one).
 
 -export([find_hash/2]).
 
