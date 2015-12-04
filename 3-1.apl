@@ -5,9 +5,7 @@
 i ← (0 0)
 cmds ← ('<' '>' '^' 'v')
 dirs ← ((¯1 0) (1 0) (0 ¯1) (0 1))
-set ← i { ⍺ ,+/⍵ ⍺ ++/⍵ } { dirs[ti] ⊣ ti ← cmds ⍳ ⍵ } ⍞
-
-set
-i
+houses ← ∪ (0 0) , i { ++\⍵ } { dirs[ti] ⊣ ti ← cmds ⍳ ⍵ } ⍞
+⍴ houses ⍝ the amount of houses to visit
 
 )OFF
