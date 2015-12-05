@@ -1,5 +1,5 @@
 -module(four_par).
--export([sfind_hash/2, find_hash/2, listener/4, hash_process/3, test/0, run/0]).
+-export([sfind_hash/2, tc_hash/2, find_hash/2, listener/4, hash_process/3, test/0, run/0]).
 
 -record(params, {base, n, zeroes}).
 
@@ -13,7 +13,6 @@ listener(CreatorPid, Params, Procs, Result) ->
 		{ack, SenderPid} ->
 			listener(CreatorPid, Params, [P || P <- Procs, P /= SenderPid], Result);
 		{done, SenderPid, N} ->
-			io:format("Listener got: ~p \n", [N]),
 			NewProcs = [P || P <- Procs, P /= SenderPid],
 			[Pid ! kill || Pid <- NewProcs], %% send kill to all others now
 			NewRes = case {Result, N} of
@@ -60,11 +59,15 @@ find_hash(Base, Zeroes) ->
 	L ! {start, 8},
 	receive
 		{result, ComputedResult} ->
-			io:format("~p", [ComputedResult])
+			ComputedResult
 	end.
 
+tc_hash(Base, Zeroes) ->
+	{Us, Return} = timer:tc(fun() -> find_hash(Base, Zeroes) end),
+	io:format("took: ~p microseconds, result: ~p \n", [Us, Return]).
+
 sfind_hash(Base, Zeroes) ->
-	spawn(?MODULE, find_hash, [Base, Zeroes]).
+	spawn(?MODULE, tc_hash, [Base, Zeroes]).
 
 test() ->
 	609043 = find_hash("abcdef", 5),
