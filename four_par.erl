@@ -18,8 +18,8 @@ listener(CreatorPid, Params, Procs, Result) ->
 			[Pid ! kill || Pid <- NewProcs], %% send kill to all others now
 			NewRes = case {Result, N} of
 				{unset, R} -> R;
-				R when N > Result -> R;
-				_ when N < Result -> Result
+				{_, R} when N > Result -> R;
+				{_, R} when N < Result -> Result
 			end,
 			case NewProcs of
 				[] ->
@@ -34,15 +34,14 @@ hash_process(OwnerPid, Params, Step) ->
 		kill -> 
 			OwnerPid ! {ack, self()},
 			exit(kill)
-	after
-		0 ->
-			case find_par(Params) of
-				N when is_number(N) ->
-					OwnerPid ! {done, self(), N};
-				no ->
-					N = Params#params.n,
-					hash_process(OwnerPid, Params#params{n = N + Step}, Step)
-				end
+	after 0 ->
+		case find_par(Params) of
+			N when is_number(N) ->
+				OwnerPid ! {done, self(), N};
+			no ->
+				N = Params#params.n,
+				hash_process(OwnerPid, Params#params{n = N + Step}, Step)
+			end
 	end.
 
 find_par({params, Base, N, Zeroes}) ->
