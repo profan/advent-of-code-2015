@@ -1,5 +1,5 @@
 -module(four_par).
--export([find_hash/2, test/0, run/0]).
+-export([sfind_hash/2, find_hash/2, listener/4, hash_process/3, test/0, run/0]).
 
 -record(params, {base, n, zeroes}).
 
@@ -7,14 +7,16 @@
 listener(CreatorPid, Params, Procs, Result) ->
 	receive
 		{start, N} ->
-			StartProc = fun(P, PN) -> spawn(?MODULE, hash_process, [self(), P, PN]) end,
-			NewProcs = [StartProc(Params#params{n = PN}, PN) || PN <- lists:seq(1, N-1)],
+			SelfPid = self(),
+			StartProc = fun(P, PN) -> spawn(?MODULE, hash_process, [SelfPid, P, PN]) end,
+			NewProcs = [StartProc(Params#params{n = PN-1}, PN) || PN <- lists:seq(1, N-1)],
 			listener(CreatorPid, Params, NewProcs, Result); %% just *assume* this is the first thing that happens, so no procs exist by now
 		{ack, SenderPid} ->
 			listener(CreatorPid, Params, [P || P <- Procs, P /= SenderPid], Result);
 		{done, SenderPid, N} ->
-			NewProcs = [P || P <- Procs, P = SenderPid],
-			[Pid ! kill || Pid <- Procs], %% send kill to all others now
+			io:format("Listener got: ~p \n", [N]),
+			NewProcs = [P || P <- Procs, P /= SenderPid],
+			[Pid ! kill || Pid <- NewProcs], %% send kill to all others now
 			NewRes = case {Result, N} of
 				{unset, R} -> R;
 				R when N > Result -> R;
@@ -44,7 +46,7 @@ hash_process(OwnerPid, Params, Step) ->
 				end
 	end.
 
-find_par({Base, N, Zeroes}) ->
+find_par({params, Base, N, Zeroes}) ->
 	Bits = Zeroes * 4,
 	Hash = erlang:md5([Base | integer_to_list(N)]),
 	case Hash of
@@ -55,12 +57,16 @@ find_par({Base, N, Zeroes}) ->
 	end.
 
 find_hash(Base, Zeroes) ->
-	P = {Base, 0, Zeroes},
+	P = #params{base = Base, n = 0, zeroes = Zeroes},
 	L = spawn(?MODULE, listener, [self(), P, [], unset]),
+	L ! {start, 8},
 	receive
 		{result, ComputedResult} ->
-			ComputedResult
+			io:format("~p", [ComputedResult])
 	end.
+
+sfind_hash(Base, Zeroes) ->
+	spawn(?MODULE, find_hash, [Base, Zeroes]).
 
 test() ->
 	609043 = find_hash("abcdef", 5),
