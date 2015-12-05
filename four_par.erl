@@ -7,8 +7,7 @@
 listener(CreatorPid, Params, Procs, Result) ->
 	receive
 		{start, N} ->
-			SelfPid = self(),
-			StartProc = fun(P, PN) -> spawn(?MODULE, hash_process, [SelfPid, P, PN]) end,
+			StartProc = fun(P, PN) -> spawn(?MODULE, hash_process, [self(), P, PN]) end,
 			NewProcs = [StartProc(Params#params{n = PN-1}, PN) || PN <- lists:seq(1, N-1)],
 			listener(CreatorPid, Params, NewProcs, Result); %% just *assume* this is the first thing that happens, so no procs exist by now
 		{ack, SenderPid} ->
