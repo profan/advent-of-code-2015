@@ -4,13 +4,12 @@ cmds ← ('<' '>' '^' 'v')
 dirs ← ((¯1 0) (1 0) (0 ¯1) (0 1))
 
 in ← ⍞ 
-len ← { ⍵ ÷ 2 } ⍴ in
-ranks ← (len, 2) ⍴ in ⍝ divide into two rows, odds and evens
+len ← ⍴ in
+hlen ← { ⍵ ÷ 2 } ⍴ in
+ranks ← ⍉ (hlen, 2) ⍴ (1, len) ⍴ in ⍝ divide into two rows, odds and evens
 houses ← { (0 0) , { ++\⍵ } { dirs[cmds ⍳ ⍵] } ⍵ }
 allhouses ← ∪ , { houses ranks[⍵;] } (1 2)
 
-ranks
-allhouses
-⍴ allhouses
+⍴ allhouses ~ 0
 
 )OFF
