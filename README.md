@@ -11,4 +11,4 @@ Ideally, the languages would be as distinct from each-other as possible, to whic
 
 **3rd. [APL](https://www.gnu.org/software/apl/)** - [[Part 1](3-1.apl), [Part 2](3-2.apl)] - [Perfectly Spherical Houses in a Vacuum](http://adventofcode.com/day/3) <- part 2 incomplete
 
-**4th. [Erlang](www.erlang.org)** - [[Part 1](four.erl), [Part 2](four.erl)] - [The Ideal Stocking Stuffer](http://adventofcode.com/day/4)
+**4th. [Erlang](www.erlang.org)** - [[Sequential](four.erl), [Parallel](four_par.erl)] - [The Ideal Stocking Stuffer](http://adventofcode.com/day/4)
