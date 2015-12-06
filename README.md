@@ -13,4 +13,4 @@ Ideally, the languages would be as distinct from each-other as possible, to whic
 
 **4th. [Erlang](www.erlang.org)** - [[Sequential](four.erl), [Parallel](four_par.erl)] - [The Ideal Stocking Stuffer](http://adventofcode.com/day/4)
 
-**5th. [AWK](http://www.gnu.org/software/gawk/manual/gawk.html)** - [[Part 1](5-1.awk), [Part 2](5-2.awk)] - [Doesn't He Have Intern-Elves For This?](Doesn't He Have Intern-Elves For This?)
+**5th. [D](http://dlang.org/)** - [[Part 1](5-1.d), [Part 2](5-2.d)] - [Doesn't He Have Intern-Elves For This?](Doesn't He Have Intern-Elves For This?)
