@@ -21,7 +21,7 @@ void main() {
 			auto chunk1 = c1.array();
 			auto chunk2 = c2.array();
 			has_double = ((chunk1.length > 1 && chunk1[0] == chunk1[1]) ||
-					chunk2.length > 1 && chunk2[0] == chunk2[1]) ? true : has_double;
+					chunk2.length > 1 && chunk2[0] == chunk2[1]) || has_double;
 
 			if (chunk1 in disallowed_strings || chunk2 in disallowed_strings) {
 				return false;
@@ -40,7 +40,7 @@ void main() {
 
 		return vowels >= 3 && has_double;
 
-	}
+	} //isNice
 
 	auto nice_words = data.filter!isNice().walkLength;
 	writefln("Day 5: Nice Words: %d", nice_words);
