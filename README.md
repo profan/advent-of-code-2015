@@ -17,4 +17,4 @@ Ideally, the languages would be as distinct from each-other as possible, to whic
 
 **6th. [OCaml](https://ocaml.org/)** - [[Part 1](6-1.ml), [Part 2](6-2.ml)] - [Probably a Fire Hazard](http://adventofcode.com/day/6)
 
-**7th. [Lua](http://www.lua.org/)** - [[Part 1](7-1.lua), [Part 2](7-2.lua)] - [Some Assembly Required](http://adventofcode.com/day/7)
+**7th. [Terra](http://terralang.org/)** - [[Part 1](7-1.t), [Part 2](7-2.t)] - [Some Assembly Required](http://adventofcode.com/day/7)
