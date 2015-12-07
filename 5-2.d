@@ -1,5 +1,5 @@
 #!/usr/bin/env rdmd
-module five_one;
+module five_two;
 
 import std.stdio;
 import std.range;
@@ -37,6 +37,6 @@ void main() {
 	} //isNice
 
 	auto nice_words = data.filter!isNice();
-	writefln("Day 5: Nice Words: %d", reduce!((r, e) { writefln(" - %s ", e); return r += 1; })(0, nice_words));
+	writefln("Day 5: Nice Words: %d", nice_words.walkLength); 
 
 }
