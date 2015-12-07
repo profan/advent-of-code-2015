@@ -16,3 +16,5 @@ Ideally, the languages would be as distinct from each-other as possible, to whic
 **5th. [D](http://dlang.org/)** - [[Part 1](5-1.d), [Part 2](5-2.d)] - [Doesn't He Have Intern-Elves For This?](Doesn't He Have Intern-Elves For This?)
 
 **6th. [OCaml](https://ocaml.org/)** - [[Part 1](6-1.ml), [Part 2](6-2.ml)] - [Probably a Fire Hazard](http://adventofcode.com/day/6)
+
+**7th. [Lua](http://www.lua.org/)** - [[Part 1](7-1.lua), [Part 2](7-2.lua)] - [Some Assembly Required](http://adventofcode.com/day/7)
