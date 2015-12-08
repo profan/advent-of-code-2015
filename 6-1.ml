@@ -13,12 +13,13 @@ module PointSet = Set.Make(
         type t = point
     end)
 
+let to_num_t x y = (int_of_string x, int_of_string y)
+
 let tokenize str = 
     let tokens = Core.Core_string.split_on_chars ~on: [' '; ','] str in
         begin match tokens with
-        | a::b::c::d::e::f::g::rest -> (a ^ " " ^ b, (int_of_string c, int_of_string d), (int_of_string f, int_of_string g))
-        | a::c::d::e::f::g::rest -> (a, (int_of_string c, int_of_string d), (int_of_string f, int_of_string g))
-        | [] -> ("", (0, 0), (0, 0))
+        | cmd::switch::x1::y1::any::x2::y2::rest -> (cmd ^ " " ^ switch, to_num_t x1 y1, to_num_t x2 y2)
+        | cmd::x1::y1::any::x2::y2::rest -> (cmd, to_num_t x1 y1, to_num_t x2 y2)
         | _ -> ("", (0, 0), (0, 0))
         end
 
