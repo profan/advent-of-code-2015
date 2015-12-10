@@ -4,7 +4,7 @@
 -- we'll use C's io library in our example.
 C = terralib.includec("stdio.h")
 
-local function compile(file)
+local function compile(file, part)
 
 	local function parse(f)
 
@@ -41,7 +41,7 @@ local function compile(file)
 
 	end
 
-	local function read(input)
+	local function read(input, override)
 
 		local symbols = {} -- declared symbols go here!
 		function symbols:add_if_new(name)
@@ -76,7 +76,6 @@ local function compile(file)
 			end
 
 			if node.rhs.lhs[1] ~= "" and node.rhs.rhs[1] ~= "" then
-				print("operation: " .. node.rhs.lhs[1] .. node.rhs.op .. node.rhs.rhs[1])
 				local lhs = (node.rhs.lhs.lit and tonumber(node.rhs.lhs[1])) or symbols:add_if_new(node.rhs.lhs[1])
 				local rhs = (node.rhs.rhs.lit and tonumber(node.rhs.rhs[1])) or symbols:add_if_new(node.rhs.rhs[1])
 				if op == "AND" then
@@ -91,31 +90,37 @@ local function compile(file)
 			end
 
 			if op == "" then -- is 123/some_var -> x
-				print("assigning: " .. node.rhs.lhs[1] .. "to " .. node.lhs)
-				local s = (node.rhs.lhs.lit and tonumber(node.rhs.lhs[1])) or symbols:add_if_new(node.rhs.lhs[1])
+				local s = (node.lhs == "b" and override) or (node.rhs.lhs.lit and tonumber(node.rhs.lhs[1])) or symbols:add_if_new(node.rhs.lhs[1])
 				stmt = quote [target] = [s] end
 			end
 
-			if (node.lhs == "a") then
-				saved_a = stmt
-			else
-				 stmts:insert(stmt) 
-			end
+			if (node.lhs == "a") then saved_a = stmt
+			else stmts:insert(stmt) end
 
 		end
 
 		stmts:insert(saved_a)
-		stmts:insert(quote C.printf("%d \n", [symbols:add_if_new("a")]) end)
+		stmts:insert(quote return [symbols["a"]] end)
 
 		return stmts
 
 	end
 
-	return terra()
-		[read(parse(file))]
+	if (part == "1") then
+		return terra()
+			[read(parse(file))]
+		end
+	else
+		return terra(override : int)
+			[read(parse(file), override)]
+		end
 	end
 
 end
 
-run = compile('7.input')
-run()
+run1 = compile('7.input', "1")
+last_result = run1()
+print("part 1 - a: " .. last_result)
+
+run2 = compile('7.input', "2")
+print("part 2 - a: " .. run2(last_result))
