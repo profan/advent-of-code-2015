@@ -17,16 +17,25 @@ local function compile(file)
 		for line in io.lines(f) do
 
 			local stmt = {}
-			local main_pat = "([^-]*)-> (.*)"
+			local main_pat = "([^-]*)-> (%l*)"
 			local bin_pat = "([^%u]*) ?(%u*) ?([^%u]*)"
 			local body, var_name = string.match(line, main_pat)
-			local left_op, op, right_op = string.match(body, bin_pat)
+			local left_op, op, right_op = string.match(body:gsub("%s+", ""), bin_pat)
 
 			stmt.lhs = var_name
 			stmt.rhs = {lhs = {left_op, lit = is_num_lit(left_op)}, op = op, rhs = {right_op, lit = is_num_lit(right_op)}}
 			table.insert(stmts, stmt)
 
 		end
+
+		table.sort(stmts, function(a, b)
+			if #a.lhs < #b.lhs then
+				return true
+			elseif #a.lhs > #b.lhs then
+				return false
+			end
+			return a.lhs < b.lhs
+		end)
 
 		return stmts
 
@@ -54,8 +63,7 @@ local function compile(file)
 		local stmts = terralib.newlist()
 		symbols.stmts = stmts
 
-		local target_symbol
-
+		local saved_a
 		for i, node in pairs(input) do
 			
 			local target = symbols:add_if_new(node.lhs)
@@ -64,10 +72,11 @@ local function compile(file)
 
 			if op == "NOT" then -- unary op
 				local rhs = symbols:add_if_new(node.rhs.rhs[1])
-				stmt = quote target = not rhs end
+				stmt = quote [target] = not rhs end
 			end
 
-			if node.rhs.lhs and node.rhs.rhs then
+			if node.rhs.lhs[1] ~= "" and node.rhs.rhs[1] ~= "" then
+				print("operation: " .. node.rhs.lhs[1] .. node.rhs.op .. node.rhs.rhs[1])
 				local lhs = (node.rhs.lhs.lit and tonumber(node.rhs.lhs[1])) or symbols:add_if_new(node.rhs.lhs[1])
 				local rhs = (node.rhs.rhs.lit and tonumber(node.rhs.rhs[1])) or symbols:add_if_new(node.rhs.rhs[1])
 				if op == "AND" then
@@ -81,15 +90,22 @@ local function compile(file)
 				end
 			end
 
-			if op == nil then -- is 123 -> x
-				stmt = quote [target] = [tonumber(node.rhs.lhs[1])] end
+			if op == "" then -- is 123/some_var -> x
+				print("assigning: " .. node.rhs.lhs[1] .. "to " .. node.lhs)
+				local s = (node.rhs.lhs.lit and tonumber(node.rhs.lhs[1])) or symbols:add_if_new(node.rhs.lhs[1])
+				stmt = quote [target] = [s] end
 			end
 
-			stmts:insert(stmt)
+			if (node.lhs == "a") then
+				saved_a = stmt
+			else
+				 stmts:insert(stmt) 
+			end
 
 		end
 
-		stmts:insert(quote C.printf("%d", [symbols["a"]]) end)
+		stmts:insert(saved_a)
+		stmts:insert(quote C.printf("%d \n", [symbols:add_if_new("a")]) end)
 
 		return stmts
 
@@ -101,4 +117,5 @@ local function compile(file)
 
 end
 
-compile('7.input')()
+run = compile('7.input')
+run()
