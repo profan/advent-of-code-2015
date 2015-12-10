@@ -8,10 +8,7 @@ local function compile(file, part)
 
 	local function parse(f)
 
-		local function is_num_lit(str)
-			return tonumber(str) ~= nil
-		end
-
+		local function is_num_lit(str) return tonumber(str) ~= nil end
 		local stmts = {}
 
 		for line in io.lines(f) do
@@ -29,9 +26,9 @@ local function compile(file, part)
 		end
 
 		table.sort(stmts, function(a, b)
-			if #a.lhs < #b.lhs then
+			if (#a.lhs < #b.lhs) then 
 				return true
-			elseif #a.lhs > #b.lhs then
+			elseif (#a.lhs > #b.lhs) then
 				return false
 			end
 			return a.lhs < b.lhs
@@ -60,10 +57,11 @@ local function compile(file, part)
 			self.stmts:insert(declaration)
 		end
 	
+		local function sym_or_lit(thing) return (thing.lit and tonumber(thing[1])) or symbols:add_if_new(thing[1]) end
 		local stmts = terralib.newlist()
 		symbols.stmts = stmts
-
 		local saved_a
+
 		for i, node in pairs(input) do
 			
 			local target = symbols:add_if_new(node.lhs)
@@ -76,8 +74,8 @@ local function compile(file, part)
 			end
 
 			if node.rhs.lhs[1] ~= "" and node.rhs.rhs[1] ~= "" then
-				local lhs = (node.rhs.lhs.lit and tonumber(node.rhs.lhs[1])) or symbols:add_if_new(node.rhs.lhs[1])
-				local rhs = (node.rhs.rhs.lit and tonumber(node.rhs.rhs[1])) or symbols:add_if_new(node.rhs.rhs[1])
+				local lhs = sym_or_lit(node.rhs.lhs)
+				local rhs = sym_or_lit(node.rhs.rhs)
 				if op == "AND" then
 					stmt = quote [target] = [lhs] and [rhs] end
 				elseif op == "OR" then
@@ -90,7 +88,7 @@ local function compile(file, part)
 			end
 
 			if op == "" then -- is 123/some_var -> x
-				local s = (node.lhs == "b" and override) or (node.rhs.lhs.lit and tonumber(node.rhs.lhs[1])) or symbols:add_if_new(node.rhs.lhs[1])
+				local s = (node.lhs == "b" and override) or sym_or_lit(node.rhs.lhs)
 				stmt = quote [target] = [s] end
 			end
 
