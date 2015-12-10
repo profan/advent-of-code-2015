@@ -54,8 +54,10 @@ local function compile(file)
 		local stmts = terralib.newlist()
 		symbols.stmts = stmts
 
-		for i, node in pairs(input) do
+		local target_symbol
 
+		for i, node in pairs(input) do
+			
 			local target = symbols:add_if_new(node.lhs)
 			local op = node.rhs.op
 			local stmt
@@ -66,8 +68,8 @@ local function compile(file)
 			end
 
 			if node.rhs.lhs and node.rhs.rhs then
-				local lhs = (node.rhs.lhs.lit and loadstring(node.rhs.lhs[1])) or symbols:add_if_new(node.rhs.lhs[1])
-				local rhs = (node.rhs.rhs.lit and loadstring(node.rhs.rhs[1])) or symbols:add_if_new(node.rhs.rhs[1])
+				local lhs = (node.rhs.lhs.lit and tonumber(node.rhs.lhs[1])) or symbols:add_if_new(node.rhs.lhs[1])
+				local rhs = (node.rhs.rhs.lit and tonumber(node.rhs.rhs[1])) or symbols:add_if_new(node.rhs.rhs[1])
 				if op == "AND" then
 					stmt = quote [target] = [lhs] and [rhs] end
 				elseif op == "OR" then
@@ -80,12 +82,14 @@ local function compile(file)
 			end
 
 			if op == nil then -- is 123 -> x
-				stmt = quote [target] = [loadstring(node.rhs.lhs)] end
+				stmt = quote [target] = [tonumber(node.rhs.lhs[1])] end
 			end
 
 			stmts:insert(stmt)
 
 		end
+
+		stmts:insert(quote C.printf("%d", [symbols["a"]]) end)
 
 		return stmts
 
