@@ -24,7 +24,7 @@ void main() {
 			}
 
 			if (chars.length > 1) {
-				if (!(chars.length > 2 && chars[0] == chars[1] && chars[1] == chars[2])) {
+				if (!(chars.length > 2 && chars[0] == chars[1] && (i != 0 && line[i-1] == chars[0]))) {
 					pairs[chars[0..2].idup] += 1;
 				}
 			}
@@ -38,5 +38,4 @@ void main() {
 
 	auto nice_words = data.filter!isNice();
 	writefln("Day 5: Nice Words: %d", nice_words.walkLength); 
-
 }
