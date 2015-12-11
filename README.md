@@ -19,4 +19,4 @@ Ideally, the languages would be as distinct from each-other as possible, to whic
 
 **7th. [Terra](http://terralang.org/)** - [[Solution](7.t)] - [Some Assembly Required](http://adventofcode.com/day/7)
 
-**8th. [Ruby](https://www.ruby-lang.org/en/)** - [[Part 1](8.1.rb), [Part 2](8-2.rb)] - [Matchsticks](http://adventofcode.com/day/8)
+**8th. [Ruby](https://www.ruby-lang.org/en/)** - [[Part 1](8-1.rb), [Part 2](8-2.rb)] - [Matchsticks](http://adventofcode.com/day/8)
