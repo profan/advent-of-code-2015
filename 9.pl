@@ -2,14 +2,6 @@
 
 :- initialization main.
 
-path(london, dublin, 464).
-path(london, belfast, 518).
-path(dublin, belfast, 141).
-
-path(dublin, london, 464).
-path(belfast, london, 518).
-path(belfast, dublin, 141).
-
 path_cost(_, [], Cost, Cost).
 
 path_cost(LastPlace, [P|Places], CostSoFar, Cost) :-
@@ -17,22 +9,21 @@ path_cost(LastPlace, [P|Places], CostSoFar, Cost) :-
 	NewCost is CostSoFar + PathCost,
 	path_cost(P, Places, NewCost, Cost).
 
-path_cost([P|Places], Cost) :-
-	path_cost(P, Places, 0, Cost).
+path_cost([P|Places], Cost) :- path_cost(P, Places, 0, Cost).
 
-find_shortest_path(Places, FoundDist) :-
+find_path(Pred, Places, FoundDist) :-
 	findall(Perm, permutation(Places, Perm), Possible),
-	min_path(Possible, FoundDist).
+	get_path(Pred, Possible, FoundDist).
 
-min_cost(P, MinSoFar, Min) :- 
-	path_cost(P, PathCost),
-	Min is min(MinSoFar, PathCost).
-
-min_path([P|Paths], MinDist) :-
-	path_cost(P, PathCost),
-	foldl(min_cost, Paths, PathCost, MinDist).
+max_cost(P, MaxSoFar, Max) :- path_cost(P, PathCost), Max is max(MaxSoFar, PathCost).
+min_cost(P, MinSoFar, Min) :- path_cost(P, PathCost), Min is min(MinSoFar, PathCost).
+get_path(Pred, [P|Paths], Dist) :- path_cost(P, PathCost), foldl(Pred, Paths, PathCost, Dist).
 
 main :-
-	find_shortest_path([dublin, london, belfast], Distance),
-	format('Shortest Distance: ~w', [Distance]),
+	consult('9-data.pl'),
+	Path = [tristram, alphacentauri, snowdin, tambi, faerun, norrath, straylight, arbre],
+	find_path(min_cost, Path, MinDist),
+	format('Part 1: Shortest Distance: ~w \n', [MinDist]),
+	find_path(max_cost, Path, MaxDist),
+	format('Part 2: Longest Distance: ~w', [MaxDist]),
 	halt(0).
