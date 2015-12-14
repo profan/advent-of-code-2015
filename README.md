@@ -31,4 +31,4 @@ Ideally, the languages would be as distinct from each-other as possible, to whic
 
 **13th. [Python](https://www.python.org/)** - [[Solution](13.py)] - [Knights of the Dinner Table](http://adventofcode.com/day/13)
 
-**14th. [Shen](http://www.shenlanguage.org)** - [[Part 1](14-1.shen), [Part 2](14-2.shen)] - [Reindeer Olympics](http://adventofcode.com/day/14)
+**14th. [Crystal](http://crystal-lang.org/)** - [[Part 1](14-1.cr), [Part 2](14-2.cr)] - [Reindeer Olympics](http://adventofcode.com/day/14)
