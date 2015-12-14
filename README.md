@@ -21,6 +21,6 @@ Ideally, the languages would be as distinct from each-other as possible, to whic
 
 **8th. [Ruby](https://www.ruby-lang.org/en/)** - [[Part 1](8-1.rb), [Part 2](8-2.rb)] - [Matchsticks](http://adventofcode.com/day/8)
 
-**9th. [Prolog](http://www.swi-prolog.org/)** - [[Part 1](9-1.pl), [Part 2](9-2.pl)] - [All in a Single Night](http://adventofcode.com/day/9)
+**9th. [Prolog](http://www.swi-prolog.org/)** - [[Solution](9.pl)]] - [All in a Single Night](http://adventofcode.com/day/9)
 
 **12th. [Io](http://iolanguage.org)** - [[Part 1](12-1.io), [Part 2](12-2.io)] - [JSAbacusFramework.io](http://adventofcode.com/day/12)
